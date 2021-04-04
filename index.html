@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+    <script src="/phaser/phaser.js"></script>
+</head>
+<body>
+
+    <script>
+    var config = {
+        type: Phaser.AUTO,
+        width: screen.width,
+        height: screen.height,
+        physics: {
+            default: 'matter',
+            matter: {
+                enableSleeping: false,    
+                gravity: {x: 0, y: 0},
+                debug: {
+                    showBody: true,
+                    showStaticBody: true,
+                    debugBodyColor: 0xffffff
+                }
+            }
+        },
+        scene: {
+            preload: preload,
+            create: create,
+            update: update
+        }
+    };
+
+    var game = new Phaser.Game(config);
+
+    function preload ()
+    {
+        this.load.image('ship1', '/assets/ships/ship_1.png');
+    }
+
+    function create ()
+    {
+        var Bodies = Phaser.Physics.Matter.Matter.Bodies;
+
+        ship = this.matter.add.sprite(screen.width / 2, screen.height / 2, 'ship1', 0 ,
+        {
+            friction: 0.0,
+            frictionAir: 0.0,
+            frictionStatic: 0.0,
+            angle: Phaser.Math.DegToRad(-90)
+         });
+
+         ship2 = this.matter.add.sprite((screen.width / 2 - 200), screen.height / 2, 'ship1', 0 ,
+        {
+            friction: 0.0,
+            frictionAir: 0.0,
+            frictionStatic: 0.0
+         });
+
+        this.matter.add.mouseSpring();
+        cursors = this.input.keyboard.createCursorKeys();
+
+        console.log(ship.body)
+
+        // debug
+        texto0 = this.add.text(0, 0, '', { font: '12px Arial', fill: '#00ff00' });
+        texto1 = this.add.text(0, 14, '', { font: '12px Arial', fill: '#00ff00' });
+        texto2 = this.add.text(0, 28, '', { font: '12px Arial', fill: '#00ff00' });
+    }
+
+    function update ()
+    {
+
+        if (cursors.left.isDown)
+        {
+            ship.applyForceFrom(
+                {x: 16, y: 0},
+                {x: -0.0001, y: 0}
+            );
+            ship.applyForceFrom(
+                {x: 16, y: 90},
+                {x: 0.0001, y: 0}
+            );
+        }
+        else if (cursors.right.isDown)
+        {
+            ship.applyForceFrom(
+                {x: 16, y: 0},
+                {x: 0.0001, y: 0}
+            );
+            ship.applyForceFrom(
+                {x: 16, y: 90},
+                {x: -0.0001, y: 0}
+            );
+        }
+        if (cursors.up.isDown)
+        {
+            ship.thrust(0.001);
+        }
+        else if (cursors.down.isDown)
+        {
+            ship.thrust(-0.0001);
+        }
+
+        texto0.setText("Angulo: " + Phaser.Math. RadToDeg(ship.body.angle));
+        texto1.setText("Direcao: " + Phaser.Math. RadToDeg(Math.atan2(ship.body.velocity.y, ship.body.velocity.x)));
+        texto2.setText("Velocidade: " + ship.body.angularVelocity)
+
+        //console.log(ship.body.velocity.x + " " + ship.body.velocity.x)
+    }
+    </script>
+
+</body>
+</html>
