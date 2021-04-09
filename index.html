@@ -64,10 +64,25 @@
         texto0 = this.add.text(0, 0, '', { font: '12px Arial', fill: '#00ff00' });
         texto1 = this.add.text(0, 14, '', { font: '12px Arial', fill: '#00ff00' });
         texto2 = this.add.text(0, 28, '', { font: '12px Arial', fill: '#00ff00' });
+        texto3 = this.add.text(0, 42, '', { font: '12px Arial', fill: '#00ff00' });
+
+        graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xaa00aa } });
+
+        line = new Phaser.Geom.Line(-100, -100, -150, -150);
+        point = new Phaser.Geom.Point(-100, -100);
+
+        //game.events.onInputDown.add(listener, this);
     }
 
     function update ()
     {
+         pointer = this.game.input.activePointer;
+         
+        if(pointer.leftButtonDown()){
+            point.setTo(pointer.x, pointer.y);
+            graphics.clear();
+            graphics.fillPointShape(point, 5);
+        };
 
         if (cursors.left.isDown)
         {
@@ -97,11 +112,15 @@
         }
         else if (cursors.down.isDown)
         {
-            ship.thrust(-0.0001);
+            if(point.x >= 0 && point.y >= 0){
+                line.setTo(ship.x, ship.y, point.x, point.y);
+                graphics.strokeLineShape(line);
+                texto3.setText("Angulo: " + Phaser.Math.RadToDeg(Phaser.Geom.Line.Angle(line)))
+            }
         }
 
-        texto0.setText("Angulo: " + Phaser.Math. RadToDeg(ship.body.angle));
-        texto1.setText("Direcao: " + Phaser.Math. RadToDeg(Math.atan2(ship.body.velocity.y, ship.body.velocity.x)));
+        texto0.setText("Angulo: " + Phaser.Math.RadToDeg(ship.body.angle));
+        texto1.setText("Direcao: " + Phaser.Math.RadToDeg(Math.atan2(ship.body.velocity.y, ship.body.velocity.x)));
         texto2.setText("Velocidade: " + ship.body.angularVelocity)
 
         //console.log(ship.body.velocity.x + " " + ship.body.velocity.x)
