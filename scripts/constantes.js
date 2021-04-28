@@ -1,0 +1,1 @@
+const NAVE_OCIOSA = 0;
