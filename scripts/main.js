@@ -65,6 +65,7 @@ function create ()
     texto1 = this.add.text(0, 14, '', { font: '12px Arial', fill: '#00ff00' });
     texto2 = this.add.text(0, 28, '', { font: '12px Arial', fill: '#00ff00' });
     texto3 = this.add.text(0, 42, '', { font: '12px Arial', fill: '#00ff00' });
+    texto4 = this.add.text(0, 56, '', { font: '12px Arial', fill: '#00ff00' });
 
     graphics = this.add.graphics({ lineStyle: { width: 4, color: 0xaa00aa } });
 
@@ -116,12 +117,19 @@ function update ()
             line.setTo(ship1.objeto.x, ship1.objeto.y, point.x, point.y);
             graphics.strokeLineShape(line);
             texto3.setText("Angulo: " + Phaser.Math.RadToDeg(Phaser.Geom.Line.Angle(line)))
+
+            ordem = new Ordem(ORDEM_MOVIMENTACAO, [point.x, point.y])
+            ship1.adiconar_ordem(ordem)
         }
     }
+
+    // Atualiza estado da naves
+    ship1.updade()
 
     texto0.setText("Angulo: " + Phaser.Math.RadToDeg(ship1.objeto.body.angle));
     texto1.setText("Direcao: " + Phaser.Math.RadToDeg(Math.atan2(ship1.objeto.body.velocity.y, ship1.objeto.body.velocity.x)));
     texto2.setText("Velocidade: " + ship1.objeto.body.angularVelocity)
+    texto4.setText("Ship1 : " + ship1.estado)
 
     //console.log(ship.body.velocity.x + " " + ship.body.velocity.x)
 }

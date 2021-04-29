@@ -14,9 +14,19 @@ class Ship {
     updade() {
         switch(this.estado){
             case NAVE_OCIOSA:
-                if (ordens.length > 0)
-                    this.estado = NAVE_APONTANDO_PARA_DESTINO;
+                if (this.ordens.length > 0)
+                    switch(this.ordens[0].tipo){
+                        case ORDEM_MOVIMENTACAO:
+                            this.estado = NAVE_APONTANDO_PARA_DESTINO
+                            break;
+                    }
                 break;
         }
+    }
+
+    // Adiciona nova ordem
+    adiconar_ordem(ordem){
+        this.ordens.push(ordem)
+        console.log(this.ordens)
     }
   }
