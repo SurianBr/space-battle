@@ -130,7 +130,12 @@ function update ()
     // Atualiza estado da naves
     ship1.updade()
 
-    texto0.setText("Angulo: " + Phaser.Math.RadToDeg(ship1.objeto.body.angle)%360);
+    var angulo_nave = Phaser.Math.RadToDeg(ship1.objeto.body.angle)%360
+    if (angulo_nave < 0){
+        angulo_nave = 360 + angulo_nave
+    }
+
+    texto0.setText("Angulo Nave: " + angulo_nave);
     texto1.setText("Direcao: " + Phaser.Math.RadToDeg(Math.atan2(ship1.objeto.body.velocity.y, ship1.objeto.body.velocity.x)));
     texto2.setText("Velocidade: " + ship1.objeto.body.angularVelocity)
     texto4.setText("Ship1 : " + ship1.estado)

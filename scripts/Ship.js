@@ -11,6 +11,9 @@ class Ship {
         
         // linha para cauculos de angulos entre a nave e um ponto qualquer
         this.linha = new Phaser.Geom.Line(-100, -100, -150, -150);
+
+        // numero em graus da diferencia entre angulos aceitavel
+        this.precisao_rotacao = 0.2
     }
 
     // Atualiza estado atual da nave
@@ -67,7 +70,7 @@ class Ship {
         } else {
             var diferenca_angulo = this.calcular_diferenca_angulo(angulo_nave, angulo_destino)
             console.log(direcao_rotacao)
-            if(diferenca_angulo < 1){
+            if(diferenca_angulo < this.precisao_rotacao){
                 if (direcao_rotacao > 180){
                     this.rotacao_esquerda()
                 } else {
@@ -79,10 +82,10 @@ class Ship {
         }
     }
 
+    // Calcula diferença entre o angula da nave com a do alvo
     calcular_diferenca_angulo(angulo_nave, angulo_destino){
         if (angulo_nave > angulo_destino){
             return Math.abs(angulo_nave-angulo_destino)
-
         } else {
             return Math.abs(angulo_destino-angulo_nave)
         }
