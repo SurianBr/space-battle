@@ -116,7 +116,11 @@ function update ()
         if(point.x >= 0 && point.y >= 0){
             line.setTo(ship1.objeto.x, ship1.objeto.y, point.x, point.y);
             graphics.strokeLineShape(line);
-            texto3.setText("Angulo: " + Phaser.Math.RadToDeg(Phaser.Geom.Line.Angle(line)))
+            var angulo = Phaser.Math.RadToDeg(Phaser.Geom.Line.Angle(line))
+            if (angulo < 0){
+                angulo = 360 + angulo
+            }
+            texto3.setText("Angulo: " + angulo)
 
             ordem = new Ordem(ORDEM_MOVIMENTACAO, [point.x, point.y])
             ship1.adiconar_ordem(ordem)
@@ -126,7 +130,7 @@ function update ()
     // Atualiza estado da naves
     ship1.updade()
 
-    texto0.setText("Angulo: " + Phaser.Math.RadToDeg(ship1.objeto.body.angle));
+    texto0.setText("Angulo: " + Phaser.Math.RadToDeg(ship1.objeto.body.angle)%360);
     texto1.setText("Direcao: " + Phaser.Math.RadToDeg(Math.atan2(ship1.objeto.body.velocity.y, ship1.objeto.body.velocity.x)));
     texto2.setText("Velocidade: " + ship1.objeto.body.angularVelocity)
     texto4.setText("Ship1 : " + ship1.estado)
