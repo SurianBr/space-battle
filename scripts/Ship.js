@@ -1,4 +1,5 @@
 class Ship {
+
     constructor(phaser, x, y, texture, frame, config){
         // adiciona ship no mundo
         this.objeto = phaser.matter.add.sprite(x, y, texture, frame, config);
@@ -13,14 +14,16 @@ class Ship {
         this.linha = new Phaser.Geom.Line(-100, -100, -150, -150);
 
         // numero em graus da diferencia entre angulos aceitavel
-        this.precisao_rotacao = 0.1
+        this.precisao_rotacao = 0.15
 
         // numero aceitavel da distancia até o alvo
         this.precisao_distancia = 10
+
+        this.direcao_rotacao = false
     }
 
     // Atualiza estado atual da nave
-    updade() {
+    atualizar() {
         switch(this.estado){
             case NAVE_OCIOSA:
                 if (this.ordens.length > 0){
@@ -42,7 +45,7 @@ class Ship {
                 break;
 
             case NAVE_CHEGOU_DESTINO:
-                this.ordens = this.ordens.shift()
+                this.ordens.shift()
                 this.estado = NAVE_OCIOSA
                 break;
         }
@@ -50,8 +53,9 @@ class Ship {
 
     // Adiciona nova ordem
     adiconar_ordem(ordem){
+        console.log("Teste: " + this.ordens.length)
         this.ordens.push(ordem)
-        console.log(this.ordens)
+        console.log("Teste2: " + this.ordens.length)
     }
 
     rotacionar(){
@@ -86,16 +90,23 @@ class Ship {
             else
                 this.rotacao_esquerda()
 
+            // Guarda direção da rotação para parar depois
+            this.direcao_rotacao = direcao_rotacao
+
         // Para a rotação quando estiver apontado para o alvo
         } else {
             var diferenca_angulo = this.calcular_diferenca_angulo(angulo_nave, angulo_destino)
             if(diferenca_angulo < this.precisao_rotacao){
-                if (direcao_rotacao){
-                    this.rotacao_esquerda()
+                if (this.direcao_rotacao){
+                    //this.rotacao_esquerda()
+                    this.objeto.setAngularVelocity(0)
                 } else {
-                    this.rotacao_direita()
+                    //this.rotacao_direita()
+                    this.objeto.setAngularVelocity(0)
                 }
                 this.estado = NAVE_APONTANDO_PARA_DESTINO
+                //this.objeto.setAngularVelocity(0)
+                //phaser.matter
             }
         }
     }
@@ -149,10 +160,9 @@ class Ship {
                 this.ordens[0].objeto[1]
             )
             var distancia_destino = Phaser.Geom.Line.Length(this.linha)
-            // TESTE ***************************
-            console.log("RENAN: " + distancia_destino)
             if (distancia_destino < this.precisao_distancia){
-                this.movimentar_atras()
+                //this.movimentar_atras()
+                this.objeto.setVelocity(0)
                 this.estado = NAVE_CHEGOU_DESTINO
             }   
         }
