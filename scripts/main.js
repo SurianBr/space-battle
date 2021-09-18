@@ -217,8 +217,8 @@ function update ()
         angulo_nave = 360 + angulo_nave
     }
 
-    texto0.setText("Angulo Nave: " + angulo_nave);
-    texto1.setText("Direcao: " + Phaser.Math.RadToDeg(Math.atan2(ship1.objeto.body.velocity.y, ship1.objeto.body.velocity.x)));
+    texto0.setText("Angulo Nave: " + ship1.angulo_nave);
+    texto1.setText("Direcao: " + ship1.angulo_direcao);
     texto2.setText("Velocidade Angular: " + ship1.objeto.body.angularVelocity)
     texto4.setText("Ship1 : " + ship1.estado)
     texto5.setText("Velocidade: " + ship1.objeto.body.speed)
